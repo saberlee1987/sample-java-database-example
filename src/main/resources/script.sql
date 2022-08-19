@@ -3,7 +3,7 @@ CREATE TABLE students
     id            int         not null primary key auto_increment,
     firstName     varchar(75) not null,
     lastName      varchar(95) not null,
-    score         DECIMAL     not null,
+    score         DOUBLE     not null,
     year          int         not null,
     studentNumber varchar(20) not null unique,
     address       text        not null,
