@@ -134,8 +134,8 @@ public class StudentHandler {
     public static void registerNewStudent(Scanner scanner, StudentService studentService) {
         try {
             StudentEntity entity = getStudentInformation(scanner);
-            boolean registerNewStudent = studentService.registerNewStudent(entity);
-            if (registerNewStudent) {
+            StudentEntity registerNewStudent = studentService.registerNewStudent(entity);
+            if (registerNewStudent!=null) {
                 System.out.println("Register new Student successfully");
             } else {
                 System.out.println("Sorry can not register new Student");

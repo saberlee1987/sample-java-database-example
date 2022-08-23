@@ -30,11 +30,11 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public boolean registerNewStudent(StudentEntity entity) {
+    public StudentEntity registerNewStudent(StudentEntity entity) {
         try (
                 Connection connection = openConnection();
                 PreparedStatement preparedStatement =
-                        connection.prepareStatement("INSERT INTO students (firstName, lastName, score, studentNumber, address, nationalCode,isDeleted,year) VALUES (?,?,?,?,?,?,?,?)")
+                        connection.prepareStatement("INSERT INTO students (firstName, lastName, score, studentNumber, address, nationalCode,isDeleted,year) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)
         ) {
             preparedStatement.setString(1, entity.getFirstName());
             preparedStatement.setString(2, entity.getLastName());
@@ -47,10 +47,16 @@ public class StudentRepositoryImpl implements StudentRepository {
 
             int executeUpdate = preparedStatement.executeUpdate();
             System.out.println("registerNewStudent add to table ====> " + executeUpdate);
-            return true;
+            if (executeUpdate > 0) {
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    entity.setId(resultSet.getInt(1));
+                }
+            }
+            return entity;
         } catch (Exception ex) {
             System.out.println("Error registerNewStudent ===> " + ex.getMessage());
-            return false;
+            return null;
         }
     }
 
@@ -65,7 +71,7 @@ public class StudentRepositoryImpl implements StudentRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int cnt = resultSet.getInt("cnt");
-                System.out.println("capacityStudents ===> "+cnt);
+                System.out.println("capacityStudents ===> " + cnt);
                 return cnt;
             } else
                 return -1;

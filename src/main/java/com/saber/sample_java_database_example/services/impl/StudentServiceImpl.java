@@ -19,23 +19,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public boolean registerNewStudent(StudentEntity entity) {
+    public StudentEntity registerNewStudent(StudentEntity entity) {
 
         System.out.println("Request for register new Student ===> " + entity);
 
         String nationalCode = entity.getNationalCode();
         String studentNumber = entity.getStudentNumber();
         if (nationalCode == null || nationalCode.trim().equals(""))
-            return false;
+            return null;
 
         if (studentNumber == null || studentNumber.trim().equals(""))
-            return false;
+            return null;
 
         if (this.studentRepository.findByNationalCodeAndStudentNumber(nationalCode, studentNumber) != null) {
             throw new ResourceDuplicationException(String.format("student with nationalCode %s And studentNumber %s already exist", nationalCode, studentNumber));
         }
 
-        boolean registerNewStudent = this.studentRepository.registerNewStudent(entity);
+        StudentEntity registerNewStudent = this.studentRepository.registerNewStudent(entity);
 
         System.out.println("Response for register new Student ===> " + registerNewStudent);
 

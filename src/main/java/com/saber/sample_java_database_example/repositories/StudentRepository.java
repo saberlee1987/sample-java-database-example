@@ -3,7 +3,7 @@ package com.saber.sample_java_database_example.repositories;
 import com.saber.sample_java_database_example.entities.StudentEntity;
 
 public interface StudentRepository {
-    boolean registerNewStudent(StudentEntity entity);
+    StudentEntity registerNewStudent(StudentEntity entity);
 
     Integer capacityStudents(Integer year);
     Integer totalCapacityWithYear(Integer year);
