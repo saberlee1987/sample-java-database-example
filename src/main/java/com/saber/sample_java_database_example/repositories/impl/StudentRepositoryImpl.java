@@ -30,7 +30,7 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public StudentEntity registerNewStudent(StudentEntity entity) {
+    public StudentEntity  registerNewStudent(StudentEntity entity) {
         try (
                 Connection connection = openConnection();
                 PreparedStatement preparedStatement =
